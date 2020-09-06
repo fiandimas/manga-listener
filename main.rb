@@ -39,7 +39,22 @@ def update_last_chapter(manga, list_updated_chapter)
     end
 end
 
-driver = Selenium::WebDriver.for :chrome
+options = {
+        args: ['headless', 'disable-gpu', 'disable-notifications', 'log-level=3'],
+        w3c: true,
+        mobileEmulation: {},
+        prefs: {
+            :protocol_handler => {
+                :excluded_schemes => {
+                    tel: false
+            }
+        }
+    }
+}
+
+caps = Selenium::WebDriver::Chrome::Options.new(options: options)
+
+driver = Selenium::WebDriver.for(:chrome, options: caps)
 
 @json_manga.each { |m| 
     driver.get m['url']
