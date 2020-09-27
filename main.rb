@@ -21,7 +21,7 @@ def build_message(manga, list_updated_chapter)
     message = ''
 
     list_updated_chapter.reverse().each { |m| 
-        message += "[NEW UPDATE]\n#{manga['title']}\nChapter: #{m['text']}\nUpdated At: 2020-07-08 16:00:00\nClick here to read #{m['url']}\n\n"
+        message += "[NEW UPDATE]\n#{manga['title']}\nChapter: #{m['text']}\nUpdated At: #{m['updated_at']} ago\nClick here to read #{m['url']}\n\n"
     }
 
     return message
@@ -67,6 +67,7 @@ driver = Selenium::WebDriver.for(:chrome, options: caps)
 
     while true do
         element = driver.find_element(:xpath => "/html/body/div[1]/div[3]/div/div[#{i}]/div/div/div[2]/a") rescue nil
+        element1 = driver.find_element(:xpath => "/html/body/div[1]/div[3]/div/div[#{i}]/div/div/div[4]") rescue nil
 
         if element != nil
             if element.text.eql?(m['last_chapter'])
@@ -75,7 +76,8 @@ driver = Selenium::WebDriver.for(:chrome, options: caps)
 
             all_chapter.push({
                 'text' => element.text,
-                'url' => element.attribute('href')
+                'url' => element.attribute('href'),
+                'updated_at' => element1.text
             })
 
             i += 1
