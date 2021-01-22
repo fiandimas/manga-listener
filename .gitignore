@@ -1,2 +1,4 @@
-debug.log
+vendor
+target
+cache.txt
 .env
